@@ -7,13 +7,13 @@ function getName(){
 		echo "<p>Hello, " . $_GET['name'] . "</p>";
 	}
 }
-function checkPasswords(){
+function validatePasswords(){
 	if(isset($_POST['password']) && isset($_POST['confirm'])){
 		if($_POST['password'] == $_POST['confirm']){
-			echo "<br>Passwords Matched!<br>";
+			echo "<br>Passwords Matching!<br>";
 		}
 		else{
-			echo "<br>Passwords didn't match!<br>";
+			echo "<br>Passwords did not match!<br>";
 		}
 	}
 }
@@ -21,45 +21,34 @@ function checkPasswords(){
 <html>
 <head>
 <script>
-function validate(){
+function validation(){
 	var form = document.forms[0];
 	var password = form.password.value;
-	var conf = form.confirm.value;
+	var confirmation = form.confirmation.value;
 	console.log(password);
-	console.log(conf);
-	if(password == conf){
+	console.log(confirmation);
+	if(password == confirmation){
 		return true;
 	}
 	
-	alert("Passwords don't match");
+	alert("Passwords do not match");
 	return false;
 	
 }
 </script>
 </head>
 <body><?php getName();?>
-<form method="POST" action="#" onsubmit="return validate();">
+<form method="POST" action="#" onsubmit="return validation();">
 <input name="name" type="text" placeholder="Enter your name"/>
-<!-- add password field-->
 <input type="password" name="password"/>
-<!-- add confirm password field-->
 <input type="password" name="confirm"/>
-<!-- ensure passwords match before sending the form
-		AND/OR
-	validate password matches confirmation on php side
--->
-<!-- change form submit type to post, adjust php checks for change in type-->
+	
 
-<input type="submit" value="Try it"/>
-<select name="dropdown">
-	<option value="1">Select One</option>
-	<option value="2">Select Two</option>
-	<option value="3">Select Three</option>
-</select>
+<input type="submit" value="Submit"/>
 </form>
 </body>
 </html>
-<?php checkPasswords();?>
+<?php validatePasswords();?>
 <?php
 if(isset($_POST)){
 	echo "<br><pre>" . var_export($_POST, true) . "</pre><br>";

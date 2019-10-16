@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+p{color: blue;}
+h1,h2{background-color: yellow;}
+.myClassname
+</style>
 <script>
 	function queryParam(){
 		var params = new URLSearchParams(location.search);
