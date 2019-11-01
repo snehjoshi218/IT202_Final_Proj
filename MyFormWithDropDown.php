@@ -39,9 +39,15 @@ function validation(){
 </head>
 <body><?php getName();?>
 <form method="POST" action="#" onsubmit="return validation();">
-<input name="name" type="text" placeholder="Enter Username"/>
+<input name="name" type="text" placeholder="Enter your name"/>
 <input type="password" name="password"/>
 <input type="password" name="confirm"/>
+
+<select name="dd" id="mySelectId">
+	<option value="-1">Select One</option>
+	<option value="0">Zero</option>
+	<option value="1">One</option>
+</select>
 	
 
 <input type="submit" value="Submit"/>
