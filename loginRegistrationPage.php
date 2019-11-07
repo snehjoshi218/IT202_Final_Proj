@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //pull in config.php so we can access the variables from it
 
-if(isset($_POST["username"]) && isset($_POST["password"]){
+if(isset($_POST["username"]) && isset($_POST["password"])){
 
    require('config.php');
    echo "Loaded Host: " . $host;
@@ -64,9 +64,8 @@ if(isset($_POST["username"]) && isset($_POST["password"]){
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
-                <input type="reset" class="btn btn-default" value="Reset">
             </div>
-            <p>Already have an account? <a href="login.php">Login here</a>.</p>
+           
         </form>
     </div>    
 </body>
