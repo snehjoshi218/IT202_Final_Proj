@@ -1,73 +1,80 @@
 <?php
-#turn error reporting on
 ini_set('display_errors',1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-//pull in config.php so we can access the variables from it
-
-if(isset($_POST["username"]) && isset($_POST["password"])){
-
-   require('config.php');
-   echo "Loaded Host: " . $host;
-   $conn_string = "mysql:host=$host;dbname=$database;charset=utf8mb4";
-   try{
-	$db = new PDO($conn_string, $username, $password);
-        echo "Connected";
-	
-	
-	
-         	//TODO select query using bindable :username is where clause
-	       //select * from TestUsers where username =
-  	       $select_query = "select * from `Login` where username = :username";
-	       $stmt = $db->prepare($select_query);
-	       $r = $stmt->execute(array(":username"=> "RagRoyale"));
-	       $results = $stmt->fetch(PDO::FETCH_ASSOC);
-	       //print_r($stmt->errorInfo());
-	       echo "<pre>" . var_export($results, true) . "</pre>"; 
-   }
-   catch(Exception $e){
-	 echo $e->getMessage();
-	 exit("Something went wrong");
-   }
-  }
 ?>
 
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	$('#register_form').submit(function(event){
+		if(this.password.value.length == 0 || this.confirm.value.length == 0){
+			alert("Please enter a password and confirm it");
+			return false;
+		}
+		let isOk = this.password.value == this.confirm.value;
+		if(!isOk){
+			alert("Password and Confirm password don't match");
+		}
+		return isOk;
+	});
+});
+</script>
 </head>
 <body>
-    <div class="wrapper">
-        <h2>Register</h2>
-        <p>Please fill this form to register to make a new account.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Username</label>
-                <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+	<form id="register_form" method="POST"/>
+        <form action = "myLandingPage.php">
+		<input type="text" required="required" name="username" placeholder="Enter Username"/> 
+		<input type="password" required="required" name="password" placeholder="Enter Password"/>
+		<input type="password" name="confirm" placeholder="Confirm your Password"/>
+		<input type="submit" onClick= "window.location.href='myLandingPage.php';" value="Register"/>
                 
-            </div>    
-            <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-                
-            </div>
-            <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-                
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Register">
-            </div>
-           
-        </form>
-    </div>    
+                 
+	</form>
 </body>
 </html>
+<?php
+	if(isset($_POST['username']) 
+		&& isset($_POST['password'])
+		&& isset($_POST['confirm'])){
+	           
+			 
+
+
+		$user = $_POST['username'];
+		$pass = $_POST['password'];
+		$confirm = $_POST['confirm'];
+		if($pass != $confirm){
+				echo "Passwords don't match";
+				exit();
+		}
+		//do further validation?
+		try{
+			//do hash of password
+			$hash = password_hash($pass, PASSWORD_BCRYPT);
+			require("config.php");
+			//$username, $password, $host, $database
+			$conn_string = "mysql:host=$host;dbname=$database;charset=utf8mb4";
+			$db = new PDO($conn_string, $username, $password);
+			$stmt = $db->prepare("INSERT into `Login` (`username`, `password`) VALUES(:username, :password)");
+			$result = $stmt->execute(
+				array(":username"=>$user,
+					":password"=>$hash
+				)
+			);
+			print_r($stmt->errorInfo());
+			
+			echo var_export($result, true);
+		}
+		catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+?>
+
 
