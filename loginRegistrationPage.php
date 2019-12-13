@@ -17,9 +17,18 @@ $(document).ready(function(){
 			alert("Please enter a password and confirm it");
 			return false;
 		}
-		let isOk = this.password.value == this.confirm.value;
-		if(!isOk){
-			alert("Password and Confirm password don't match");
+function validatePass(form){
+        var username = form.username.value;
+        var password = form.password.value;
+        var confirm = form.confirm.value;
+        if (username == "" || password == "" || confirm == ""){
+                alert("Please complete all of your information.");
+                return false;
+        }
+
+	let isOk = this.password.value == this.confirm.value;
+	if(!isOk){
+	alert("Password and Confirm password don't match");
 		}
 		return isOk;
 	});

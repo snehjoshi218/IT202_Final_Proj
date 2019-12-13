@@ -41,5 +41,10 @@ $(document).ready(function(){
 </head>
 <body>
 Welcome to my E-Bank <?php echo $_SESSION['user']['name'];?>
+<br></br>	
+	<a href="transaction.php">Transactions</a>  &nbsp  |  &nbsp
+	<a href="myLoginPage.php">Logout</a>  &nbsp  |  &nbsp
+       </ul>
+
 </body>
 </html>
