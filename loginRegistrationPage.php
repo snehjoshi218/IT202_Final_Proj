@@ -28,7 +28,7 @@ $(document).ready(function(){
 </head>
 <body>
 	<form id="register_form" method="POST"/>
-        <form action = "myLandingPage.php">
+        
 		<input type="text" required="required" name="username" placeholder="Enter Username"/> 
 		<input type="password" required="required" name="password" placeholder="Enter Password"/>
 		<input type="password" name="confirm" placeholder="Confirm your Password"/>

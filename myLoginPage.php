@@ -8,7 +8,8 @@ error_reporting(E_ALL);
 <html>
 <head></head>
 <body>
-	<form method="POST"/>
+
+	<form method="POST"/>	
 		<input type="text" name="username" placeholder="Username"/>
 		<input type="password" name="password" placeholder="Password"/>
 		<input type="submit" value="Login"/>
@@ -25,7 +26,7 @@ error_reporting(E_ALL);
 			//$username, $password, $host, $database
 			$conn_string = "mysql:host=$host;dbname=$database;charset=utf8mb4";
 			$db = new PDO($conn_string, $username, $password);
-			$stmt = $db->prepare("select id, username, password from `Login` where username = :username LIMIT 1");
+			$stmt = $db->prepare("select username, password from `Login` where username = :username LIMIT 1");
 			$stmt->execute(array(":username"=>$user));
 			//print_r($stmt->errorInfo());
 			$results = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -38,21 +39,7 @@ error_reporting(E_ALL);
 					$user = array("id"=> $results['id'],
 								"name"=> $results['username']
 								);
-					//TODO refactor
-					$sql = "select value from `System_Properties` where `key` = :key";
-					$stmt = $db->prepare($sql);
-					$r = $stmt->execute(array(":key"=>"admins"));
-					$result = $stmt->fetch(PDO::FETCH_ASSOC);
-					$user["isAdmin"] = false;
-					echo var_export($result, true);
-					if($result){
-						if(strpos($result['value'], ($user["id"]."")) !== false){
-							$user["isAdmin"] = true;
-						}
-					}
-					else{
-						echo $stmt->errorInfo();
-					}
+					
 					
 					$_SESSION['user'] = $user;
 					echo var_export($user, true);
